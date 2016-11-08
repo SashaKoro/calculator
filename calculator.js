@@ -23,14 +23,14 @@ function takeInput(val) {
 	if (val == "." && output.slice(-1) == ".") {
 		output = output.slice(0, -1);
 	}
-	//Handled the zero stacking issue at the front of the string
-	if (val == 0  && output == "") {
-		val = "";
+	//Handled the zero stacking issue
+	if (/^0$/.test(output) == true && (val != "." && val != " / " && val != " * " && val != " - " && val != " + ")) {
+		output = "";
 	}
-	//Handled the zero stacking issue after an operator
-	if (val == 0 && output.slice(-1) == ' ') {
-		val = "";
+	if (output.slice(-2) == " 0" && (val != "." && val != " / " && val != " * " && val != " - " && val != " + ")) {
+		output = output.slice(0, -1);
 	}
+
 
 	output += val;
     document.getElementById("calc").innerHTML = output;
@@ -47,7 +47,6 @@ function ClearAll() {
 function ClearLast() {
 
 	document.getElementById("calc").style.background = "rgb(198, 254, 202)";
-	//Checks if last input was operator or not, and slices accordingly
 	if (output.slice(-1) === " ") {
 		output = output.slice(0, -3);	
 	}
@@ -58,15 +57,23 @@ function ClearLast() {
 }
 
 function Evaluate() {
-	//Displays error cases to the user
-	if (output.slice(-1) === " " || output.slice(1, 2) == "/" || output.slice(1, 2) == "*" || output.slice(0,2) == ". " || output.slice(-2) == " ."  || / \. /.test(output) == true) {
-		document.getElementById("calc").style.background = "rgb(255, 25, 0)";
-	}
-	if (output != "") {
-	document.getElementById("calc").innerHTML = eval(output);
+	document.getElementById("calc").innerHTML = calculatorTest(output);
 	output = eval(output);
 	output = String(output);
 	impliedOverWrite = "maybe";
+}
+
+function calculatorTest(userInput) {
+	if (userInput.slice(-1) === " " || userInput.slice(1, 2) == "/" || userInput.slice(1, 2) == "*" || userInput.slice(0,2) == ". " || userInput.slice(-2) == " ."  || / \. /.test(userInput) == true) {
+		document.getElementById("calc").style.background = "rgb(255, 25, 0)";
+	}
+	if (userInput == "0 / 0") {
+		userInput = Infinity;
+		return userInput;
+	}
+	if (userInput != "") {
+		userInput = eval(userInput);
+		return userInput;
 	}
 }
 
@@ -76,7 +83,12 @@ var outputFrank = "";
 var overWriteFrank = "";
 
 function Frankulate(val) {
+	val = inputCheck(val);
+	outputFrank += val;
+	document.getElementById("calcF").innerHTML = outputFrank;
+}
 
+function inputCheck(val) {
 	if (overWriteFrank == "yes") {
 		outputFrank = "";
 		overWriteFrank = "";
@@ -85,9 +97,25 @@ function Frankulate(val) {
 	if (val == "." && outputFrank.slice(-1) == ".") {
 		outputFrank = outputFrank.slice(0, -1);
 	}
+	//Multiple periods handling
+	if (val == "." && /\./.test(outputFrank) == true) {
+		val = "";
+	}
+	//Stacking zeroes at the start of input handling
+	if(val != "." && /^0$/.test(outputFrank) == true) {
+		outputFrank = "";
+	}
+	//Handled issue of input "leaking" out of the box
+	if (String(outputFrank).length > 30) {
+		val = "";
+	}
+	return val;
+}
 
-	outputFrank += val;
-	document.getElementById("calcF").innerHTML = outputFrank;
+function userOutputFrank(visualOutput) {
+	document.getElementById("calcF").innerHTML = visualOutput;
+	outputFrank = String(outputFrank);
+	overWriteFrank = "yes";
 }
 
 function frankClearAll() {
@@ -100,51 +128,151 @@ function frankClearLast() {
 	document.getElementById("calcF").innerHTML = outputFrank;	
 }
 
-function sqRt() {
-	outputFrank = Math.sqrt(outputFrank);
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+//Functions linking the user input with the procedural functions and the user output 
+
+function squareRootLink() {
+	outputFrank = squareRootRun(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function squareLink() {
+	outputFrank = squareRun(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function percentLink() {
+	outputFrank = percentageRun(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function factorialLink() {
+	outputFrank = factorialCheck(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function primeLink() {
+	outputFrank = ifPrime(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function largestPrimeFactorLink() {
+	outputFrank = largestPrimeFactorSearch(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function sumOfPrimesLink() {
+	outputFrank = sumOfPrimesGenerator(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function triangularNumberLink() {
+	outputFrank = triangularNumberGenerator(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function divisorCountLink() {
+	outputFrank = divisorCounter(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function collatzCountLink() {
+	outputFrank = collatzTry(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function fibonacciSumLink() {
+	outputFrank = fibGenerator(outputFrank);
+	userOutputFrank(outputFrank);
+}
+function digitSumLink() {
+	outputFrank = digitSumCounter(outputFrank);
+	userOutputFrank(outputFrank);
 }
 
-function square() {
-	outputFrank *= outputFrank;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+//Procedural functions (checked by mocha)
+
+function squareRootRun(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	return Math.sqrt(x);
 }
 
-function percentage() {
-	outputFrank /= 100;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+function squareRun(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		if (/\+/.test(x) != true && /\-/.test(x) != true) {
+		x = "";
+		}
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	return x *= x;
 }
 
-function factorial() {
-	var j = outputFrank - 1; 
+function percentageRun(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		if (/\-/.test(x) != true && /\+/.test(x) != true) {
+		x = "";
+		}
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	return (x /= 100);  
+}
+
+function factorialCheck(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (/\./.test(x) == true) {
+		x = "Number must be an Integer"
+		return x;
+	}
+	if (x === "") {
+		x = "Please enter a number";
+		return x;
+	}
+	if (String(x).length > 3) {
+		return "Infinity";
+	}
+	x = Number(x);
+
+	if (x == 0) {
+		return 1;
+	}
+	var j = x - 1;
 	while (j > 1) {
-		outputFrank *= j;
+		x *= j;
 		j -= 1;
 	}
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	return x
 }
 
 function ifPrime(x) {
-	//Four base cases handled (0,1,2,3) so I could run the i <= (x/i) loop while increasing i by two. This improved speed greatly.
-	if (x == 2 || x == 3) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (String(x).length > 13) {
+		x = "Sorry, number is too long";
+		return x;
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	if (/\./.test(x) == true) {
+		x = "Number must be an Integer"
+		return x;
+	}
+	x = Number(x);
+	if (x === 2 || x == 3) {
 		x += " is prime";
 		return x;
 	}
-	if (x == 1 || x % 2 == 0) {
+	if (x === 1 || x % 2 === 0) {
 		x += " is NOT prime";
 		return x;
 	}
 	var i = 3;
 	while (i <= (x / i)) {
-		if (x % i == 0) {
+		if (x % i === 0) {
 			x += " is NOT prime";
 			return x;
 		}
@@ -154,137 +282,187 @@ function ifPrime(x) {
 	return x;
 }
 
-function primeLink() {
-
-	outputFrank = ifPrime(outputFrank);
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
-}
-
-function largestPrimeFactor() {
-	var lastLargest = 0;
-	var k = 3;
-	while (k <= (outputFrank / k)) {
-		if ( ifPrime(k).slice(-9) != "NOT prime") {
-			if (outputFrank % k == 0) {
+function largestPrimeFactorSearch(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (String(x).length > 6) {          // TOO SLOW
+		x = "Sorry, number is too long";
+		return x;
+	}
+	if (/\./.test(x) == true) {
+		x = "Number must be an Integer"
+		return x;
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	var lastLargest = "No prime factor";
+	var k = 2;
+	while (k < x) {  // Fix, way too slow...
+		if (ifPrime(k).slice(-9) != "NOT prime") {
+			if (x % k === 0) {
 				lastLargest = k;
 			}			
 		}
-	k += 2;
+	k += 1;
 	}
-	outputFrank = lastLargest;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
-
+	return lastLargest;
 }
 
-//function finds the sum of all primes below the given number
-function sumOfPrimes() {
+//Finds the sum of all primes below the given number
+function sumOfPrimesGenerator(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (String(x).length > 7) {          
+		x = "Sorry, number is too long";
+		return x;
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	if (x == 0 || x == 1 || x == 2) {
+		return 0;
+	}
 	var totalSum = 0;
-	var l = 3;
-	while (l < outputFrank) {
-		if ( ifPrime(l).slice(-9) != "NOT prime") {
-			totalSum += l;
+	var i = 3;
+	while (i < x) {   
+		if (ifPrime(i).slice(-9) !== "NOT prime") {
+			totalSum += i;
 		}
-	l += 2;
+	i += 2;
 	}
-	outputFrank = totalSum + 2;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	totalSum += 2;
+	return totalSum
 }
 
-function triangularNumberGenerator(tr) {
-	triNum = 1;
-	triAdd = 2;
-	while (tr != triNum) {
-		if (triNum > tr) {
-			return tr + " is NOT tri";
+//Determines whether the number is a triangular number via the Generator function below
+function triangularNumberGenerator(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	if (String(x).length > 12) {      
+		x = "Sorry, number is too long";
+		return x;
+	}
+	x = Number(x);
+	var triNum = 1;
+	var triAdd = 2;
+	while (x != triNum) {
+		if (triNum > x) {
+			return x + " is NOT tri";
 		} 
 		triNum += triAdd;
 		triAdd += 1;
 	}
-	return tr + " is a tri number";
-}
-
-//Determines whether the number is a triangular number via the Generator function above
-function triangularNumber() {
-
-	outputFrank = triangularNumberGenerator(outputFrank);
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	return x + " is a tri number";
 }
 
 //Counts all the divisors of a given number
-function divisorCount() {
+function divisorCounter(x) {
+	if (/\./.test(x) == true) {
+		x = "Number must be an Integer"
+		return x;
+	}
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (String(x).length > 7) {          // TOO SLOW
+		x = "Sorry, number is too long";
+		return x;
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	if (x == 0) {
+		return "infinite number of divisors";
+	}
 	var m = 1;
 	var divCount = 0;
-	while (m <= outputFrank) {
-		if (outputFrank % m == 0) {
+	while (m <= x) {     //Make this faster...
+		if (x % m == 0) {
 			divCount += 1;
 		}
 	m += 1;
 	}
-	outputFrank = divCount;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	return divCount;
 }
 
 //Determines how many steps it takes a number to reach 1 via the collatz conjecture
-function collatz_count() {
+function collatzTry(x) {
+	if (/\./.test(x) == true) {
+		x = "Number must be an Integer"
+		return x;
+	}
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
+	if (x == 0) {
+		return "Input must be a positive integer";
+	}
 	var steps = 0;
-	while (outputFrank != 1) {
-		if (outputFrank % 2 == 0) {
-			outputFrank /= 2;
+	while (x != 1) {
+		if (x % 2 == 0) {
+			x /= 2;
 		} else {
-			outputFrank = (outputFrank * 3) + 1;
+			x = (x * 3) + 1;
 		}
 		steps += 1;
 	}
-
-	outputFrank = steps;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	return steps;
 }
 
-//Outputs the sum of all fibonacci numbers below a given number
-function fibonacci_sum() {
+//Calculates the sum of all fibonacci numbers below a given number
+function fibGenerator(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
 	var firstFib = 1;
 	var secondFib = 0;
 	var fib_Sum = 0;
-	while (firstFib + secondFib < outputFrank) {
+	while (firstFib + secondFib < x) {
 		firstFib += secondFib;
 		secondFib = (firstFib - secondFib);
 		fib_Sum += firstFib;
 	}
-
-	outputFrank = fib_Sum;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	return fib_Sum;
 }
 
-//Outputs the sum of the digits of a number, eg: 456 becomes 4+5+6 = 15
-function digitSum() {
+//Calculates the sum of the digits of a number, eg: 456 becomes 4+5+6 = 15
+function digitSumCounter(x) {
+	if ( /[a-z]/i.test(x) == true || x === ".") {
+		x = "";
+	}
+	if (x === "") {
+		return "Please enter a number";
+	}
+	x = Number(x);
 	var dig_Sum = 0;
 	var z = 0;
-	while (z < parseInt(String(outputFrank).length)) {
-		dig_Sum += parseInt(outputFrank.charAt(z));
-		z += 1;
-	}
-
-	outputFrank = dig_Sum;
-	document.getElementById("calcF").innerHTML = outputFrank;
-	outputFrank = String(outputFrank);
-	overWriteFrank = "yes";
+	for (var i = 0; i < (String(x).length); i ++) {
+		if (String(x).charAt(i) != ".") {
+			dig_Sum += parseInt(String(x).charAt(i));
+		}	
+	} 
+	return dig_Sum;
 }
 
-function squareDigitChain() {
+/* function squareDigitChain() {
 	var chainCount = 0;
 	while (outputFrank != 1) {
 		outputFrank = squareSum(outputFrank);  // <<< problem with this line			 
@@ -305,6 +483,6 @@ function squareSum(u) {
 		position += 1;
 	}
 	return sumofSquares;
-}
+} */
 
 

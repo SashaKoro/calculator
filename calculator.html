@@ -1,19 +1,11 @@
-<!-- This is a calculator/frankulator project built using html/css/javascript/jquery. The goal of this project is to make a functional/user friendly calculator with a 'franklulator' on the other side. The frankulator is not fully thought out yet, my vision for the frankulator is to make it output a 'statsheet' for a given number, putting out a whole list of fun facts about the number. This would involve chaining all the 'Frankulations' and giving one ouput.
--->
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="utf-8">
-
     <title>Calculator</title>
-
-
     <style type="text/css">
 
     /* Calculator CSS */
-
-
 
     #switch {
       margin: auto;
@@ -26,7 +18,6 @@
       background-color: rgb(157, 142, 254);
       box-shadow: 4px 5px 3px 0 rgba(0, 0, 0, .5);
     }
-
     #switch:hover {
       background-color: rgb(92, 86, 249);
       border: rgb(92, 86, 249);
@@ -117,7 +108,6 @@
     background-color: rgb(221,160,221, .5);
     font-family: Arial, sans-serif;
     box-shadow: 4px 5px 3px 0 rgba(0, 0, 0, .5);
-
    }
    .btnSmall:hover {
     background-color: rgb(142, 170, 183);
@@ -213,8 +203,6 @@
     background-color: rgb(150,150,150);
    }
 
-
-
     </style>
 </head>
 <body>
@@ -273,43 +261,43 @@
                 <button onclick="Frankulate('7')" class="btnSmallF">7</button>
                 <button onclick="Frankulate('8')" class="btnSmallF">8</button>
                 <button onclick="Frankulate('9')" class="btnSmallF">9</button>
-                <button onclick="sqRt()" class="btnSmallF">sqRt</button>
+                <button onclick="squareRootLink()" class="btnSmallF">sqRt</button>
             </div>
             <div class="row2F" id="smallRow2">
                 <button onclick="Frankulate('4')" class="btnSmallF">4</button>
                 <button onclick="Frankulate('5')" class="btnSmallF">5</button>
                 <button onclick="Frankulate('6')" class="btnSmallF">6</button>
-                <button onclick="square()" class="btnSmallF">x^2</button>    
+                <button onclick="squareLink()" class="btnSmallF">x^2</button>    
             </div>
             <div class="row2F" id="smallRow3">
                 <button onclick="Frankulate('1')" class="btnSmallF">1</button>
                 <button onclick="Frankulate('2')" class="btnSmallF">2</button>
                 <button onclick="Frankulate('3')" class="btnSmallF">3</button>
-                <button onclick="factorial()" class="btnSmallF">n!</button>
+                <button onclick="factorialLink()" class="btnSmallF">n!</button>
             </div>
             <div class="row2F" id="smallRow4">
                 <button onclick="Frankulate('0')" class="btnSmallF">0</button>
                 <button onclick="Frankulate('.')" class="btnSmallF">.</button>
-                <button onclick="percentage()" class="btnSmallF">%</button>
-                <button title="Outputs the sum of the digits of a number, eg: 456 becomes 4+5+6 = 15" onclick="digitSum()" class="btnSmallF">D_S</button> 
+                <button onclick="percentLink()" class="btnSmallF">%</button>
+                <button title="Outputs the sum of the digits of a number, eg: 456 becomes 4+5+6 = 15" onclick="digitSumLink()" class="btnSmallF">D_S</button> 
             </div>
             <div class="row2F" id="smallRow5">
                 <button title="Calculates whether the number is prime or not" onclick="primeLink()" class="btnSmallF">P?</button>
-                <button title="Calculates the largest prime number factor of the input number" onclick="largestPrimeFactor()" class="btnSmallF">L_P</button>
-                <button title="Calculates the sum of primes of all numbers below the input number." onclick="sumOfPrimes()" class="btnSmallF">S_P</button>
-                <button title="Determines whether the number is a triangular number" onclick="triangularNumber()" class="btnSmallF">T?</button>
+                <button title="Calculates the largest prime number factor of the input number" onclick="largestPrimeFactorLink()" class="btnSmallF">L_P</button>
+                <button title="Calculates the sum of primes of all numbers below the input number." onclick="sumOfPrimesLink()" class="btnSmallF">S_P</button>
+                <button title="Determines whether the number is a triangular number" onclick="triangularNumberLink()" class="btnSmallF">T?</button>
             </div>
             <div class="row2F" id="smallRow6">
-                <button title="Calculates the number of divisors the input number has" onclick="divisorCount()" class="btnSmallF">DvC</button>
-                <button title="Calculates the sum of all fibonacci numbers under the input number." onclick="fibonacci_sum()" class="btnSmallF">F_S</button>
-                <button title="Calculates how many steps it takes a number to reach 1 via the collatz conjecture" onclick="collatz_count()" class="btnSmallF">C_C</button>
+                <button title="Calculates the number of divisors the input number has" onclick="divisorCountLink()" class="btnSmallF">DvC</button>
+                <button title="Calculates the sum of all fibonacci numbers under the input number." onclick="fibonacciSumLink()" class="btnSmallF">F_S</button>
+                <button title="Calculates how many steps it takes a number to reach 1 via the collatz conjecture" onclick="collatzCountLink()" class="btnSmallF">C_C</button>
                 <button onclick="squareDigitChain()" class="btnSmallF">SDC</button>
             </div>
 
 
     </div>
     <script src="calculator.js"></script>
-    <script src="jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
     $( "#switch" ).click(function() {
         $( ".toggled" ).toggle();
