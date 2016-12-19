@@ -493,17 +493,17 @@ describe('Frankulator', function() {
   	it('expects sum of fibonacci numbers under 1 to be 0', function() {
   		expect(fibGenerator(1)).to.equal(0);
   	});
-  	it('expects sum of fibonacci numbers under 2 to be 1', function() {
-  		expect(fibGenerator(2)).to.equal(1);
+  	it('expects sum of fibonacci numbers under 2 to be 2', function() {
+  		expect(fibGenerator(2)).to.equal(2);
   	});  
-  	it('expects sum of fibonacci numbers under 7 to be 11', function() {
-  		expect(fibGenerator(7)).to.equal(11);
+  	it('expects sum of fibonacci numbers under 7 to be 12', function() {
+  		expect(fibGenerator(7)).to.equal(12);
   	});
-  	it('expects sum of fibonacci numbers under 20 to be 32', function() {
-  		expect(fibGenerator(20)).to.equal(32);
+  	it('expects sum of fibonacci numbers under 20 to be 33', function() {
+  		expect(fibGenerator(20)).to.equal(33);
   	});
-  	it('expects sum of fibonacci numbers under 89 to be 142', function() {
-  		expect(fibGenerator(89)).to.equal(142);
+  	it('expects sum of fibonacci numbers under 89 to be 143', function() {
+  		expect(fibGenerator(89)).to.equal(143);
   	}); 
   	it('expects sum of fibonacci numbers under "0" to be 0', function() {
   		expect(fibGenerator("0")).to.equal(0);
@@ -511,17 +511,17 @@ describe('Frankulator', function() {
   	it('expects sum of fibonacci numbers under "1" to be 0', function() {
   		expect(fibGenerator("1")).to.equal(0);
   	});
-  	it('expects sum of fibonacci numbers under "2" to be 1', function() {
-  		expect(fibGenerator("2")).to.equal(1);
+  	it('expects sum of fibonacci numbers under "2" to be 2', function() {
+  		expect(fibGenerator("2")).to.equal(2);
   	});  
-  	it('expects sum of fibonacci numbers under "7" to be 11', function() {
-  		expect(fibGenerator("7")).to.equal(11);
+  	it('expects sum of fibonacci numbers under "7" to be 12', function() {
+  		expect(fibGenerator("7")).to.equal(12);
   	});
-  	it('expects sum of fibonacci numbers under "20" to be 32', function() {
-  		expect(fibGenerator("20")).to.equal(32);
+  	it('expects sum of fibonacci numbers under "20" to be 33', function() {
+  		expect(fibGenerator("20")).to.equal(33);
   	});
-  	it('expects sum of fibonacci numbers under "89" to be 142', function() {
-  		expect(fibGenerator("89")).to.equal(142);
+  	it('expects sum of fibonacci numbers under "89" to be 143', function() {
+  		expect(fibGenerator("89")).to.equal(143);
   	});   		
   });
   describe('digitSumCounter', function() {
@@ -697,7 +697,28 @@ describe('Frankulator', function() {
   	it('expects "149" to be a good Prime', function() {
   		expect(goodPrimeGenerator("149")).to.equal("149 is a good prime");
   	});    	 	 	  	
-  });      
+  });   
+  describe('woodallGenerator', function() {
+    this.timeout(200);
+    it('Should be a function', function () {
+      expect(woodallGenerator).to.be.a('function');
+    });   
+    it('expects blank string to prompt Please enter a number', function() {
+      expect(woodallGenerator()).to.equal("Please enter a number");
+    });  
+    it('expects decimal number input to prompt Number must be an integer', function() {
+      expect(woodallGenerator('.123')).to.equal("Number must be an Integer");
+    });
+    it('expects Woodall number of 1 to be 1', function() {
+      expect(woodallGenerator('1')).to.equal(1);
+    });
+    it('expects Woodall number of 2 to be 7', function() {
+      expect(woodallGenerator('2')).to.equal(7);
+    }); 
+    it('expects Woodall number of 7 to be 895', function() {
+      expect(woodallGenerator('7')).to.equal(895);
+    });    
+  });     
 });
 
 

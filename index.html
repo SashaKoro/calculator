@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Calculator</title>
+    <link rel='shortcut icon' type='image/x-icon' href='images/calculator.ico'/>
+    <title>Calc/Frankulator</title>
     <style type="text/css">
 
     /* Calculator CSS */
@@ -19,9 +20,13 @@
       box-shadow: 4px 5px 3px 0 rgba(0, 0, 0, .5);
     }
     #switch:hover {
-      background-color: rgb(92, 86, 249);
-      border: rgb(92, 86, 249);
+      background-color: rgb(140, 120, 230);
     }
+    button:focus {
+        outline-color: black;
+        outline-style: solid;
+        outline-width: 2px;
+    }    
     button:active {
       transform: translateY(3px);
     }
@@ -70,12 +75,11 @@
    #all-clear {
     height: 90%;
     width: 42%;
-    background-color: rgb(251, 142, 142);
-    border: 3px solid rgb(251, 130, 110);
+    background-color: rgb(221,160,221, .5);
+    border: 3px solid #9F6464;
    }
    #all-clear:hover {
-    background-color: rgb(254, 49, 49);
-    border: rgb(254, 49, 49);
+    background-color: #9F6464;
    }
    #clear-entry {
     height: 90%;
@@ -93,7 +97,7 @@
     box-shadow: 4px 5px 3px 0 rgba(0, 0, 0, .5);
    }
    .btnBig:hover {
-    background-color: rgb(251, 142, 142);
+    background-color: rgb(150, 150, 150);
    }
    .row2 {
     text-align: center;
@@ -110,16 +114,14 @@
     box-shadow: 4px 5px 3px 0 rgba(0, 0, 0, .5);
    }
    .btnSmall:hover {
-    background-color: rgb(142, 170, 183);
-    border: rgb(142, 170, 183);
+    background-color: rgb(150, 150, 150);
    }
    #equals {
     background-color: rgb(171, 189, 246);
     border: 3px solid rgb(150, 150, 246);
    }
    #equals:hover {
-    background-color: rgb(110, 91, 233);
-    border: rgb(110, 91, 233);
+    background-color: rgb(150, 150, 246);
    }
 
    /* Frankulator CSS */
@@ -305,6 +307,7 @@
     <div class="row2F" id="SmallRow7">
         <button title="Determines if the number is a Chen Prime" onclick="chenPrimeLink()" class="btnSmallF">C_P</button>
         <button title="Determines if the number is a Good Prime" onclick="goodPrimeLink()" class="btnSmallF">G_P</button>
+        <button title="Calculate the Woodall number of the inputted number" onclick="woodallLink()" class="btnSmallF">W_N</button>
     </div>
 </div>
 

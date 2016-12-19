@@ -137,8 +137,14 @@ function frankClearLast() {
 }
 
 //Functions linking the user input with the procedural functions and the user output 
-
+function blankInputCheck(inputnum) {
+	if (inputnum === "") {
+		document.getElementById("calcF").innerHTML = "Please enter a number";
+	}
+	return inputnum;
+}
 function squareRootLink() {
+	outputFrank = blankInputCheck(outputFrank);
 	outputFrank = squareRootRun(outputFrank);
 	userOutputFrank(outputFrank);
 }
@@ -200,6 +206,11 @@ function chenPrimeLink() {
 function goodPrimeLink() {
 	outputFrank = goodPrimeGenerator(outputFrank);
 	userOutputFrank(outputFrank);
+}
+
+function woodallLink() {
+	outputFrank = woodallGenerator(outputFrank);
+	userOutputFrank(outputFrank);	
 }
 
 //Procedural functions (checked by mocha)
@@ -301,7 +312,7 @@ function ifPrime(x) {
 			x += " is NOT prime";
 			return x;
 		}
-		i += 2
+		i += 2;
 	}
 	x += " is prime";
 	return x;
@@ -365,7 +376,7 @@ function sumOfPrimesGenerator(x) {
 	i += 2;
 	}
 	totalSum += 2;
-	return totalSum
+	return totalSum;
 }
 
 //Determines whether the number is a triangular number or not
@@ -474,6 +485,10 @@ function fibGenerator(x) {
 		return "Please enter a number";
 	}
 	x = Number(x);
+
+	if (x === 1 || x === 0) {
+		return 0;
+	}
 	var firstFib = 1;
 	var secondFib = 0;
 	var fib_Sum = 0;
@@ -482,7 +497,7 @@ function fibGenerator(x) {
 		secondFib = (firstFib - secondFib);
 		fib_Sum += firstFib;
 	}
-	return fib_Sum;
+	return fib_Sum + 1;
 }
 
 //Calculates the sum of the digits of a number, eg: 456 becomes 4+5+6 = 15
@@ -630,4 +645,19 @@ function goodPrimeGenerator(x) {
 	}
 	x += " is a non-good prime";
 	return x;
+}
+
+function woodallGenerator(inputnum) {
+	if (/[a-z]/i.test(inputnum) === true || inputnum === ".") {
+		inputnum = "";
+	}
+	if (inputnum === "") {
+		return "Please enter a number";
+	}
+	if (/\./.test(inputnum) === true) {
+		inputnum = "Number must be an Integer";
+		return inputnum;
+	}
+	inputnum = Number(inputnum);	
+	return inputnum * Math.pow(2, inputnum) - 1;
 }
